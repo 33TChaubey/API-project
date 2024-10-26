@@ -1,28 +1,32 @@
 import React from 'react'
-
+import Navbar from './Components/Navbar';
+import Home from './Components/Home';
+import Details from './Components/Details';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import Context from './utils/Context';
+import Create from './Components/Create';
+import Edit from './Components/Edit';
 
 const App = () => {
+  const { search, pathname } = useLocation();
+
+
   return (
     <div className="h-screen w-screen flex">
-      <nav className="w-[15%] h-full bg-zinc-100 flex flex-col items-center pt-5">
-        <a className="py-3 px-5 border rounded border-blue-500" href="/create">Add New product</a>
-        <hr className=" my-3 w-[80%]" />
-        <h1 className="text-2xl w-[80%] mb-3">Category</h1>
-        <ul className="w-[80%]">
-          <li className="mb-3 flex items-center">
-            <span className="rounded-full mr-2 w-[15px] h-[15px] bg-blue-100"></span>
-            Cat 1
-          </li>
-          <li className="mb-3 flex items-center">
-            <span className="rounded-full mr-2 w-[15px] h-[15px] bg-red-100"></span>
-            Cat 2
-          </li>
-          <li className="mb-3 flex items-center">
-            <span className="rounded-full mr-2 w-[15px] h-[15px] bg-green-100"></span>
-            Cat 3
-          </li>
-        </ul>
-      </nav>
+
+      {(pathname != "/" || search.length > 0) && (<Link to="/" className="absolute left-[17%] top-[3%] text-blue-500">
+        Home
+      </Link>)}
+      <Context>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/edit/:id" element={<Edit />} />
+          <Route path="/create" element={<Create />} />
+          <Route path="/details/:id" element={<Details />} />
+        </Routes>
+      </Context>
+
+
 
     </div>
   )
